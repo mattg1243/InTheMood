@@ -10,6 +10,6 @@ export const checkTokenCookie = async (req: Request, res: Response, next: NextFu
     const token = response.access_token;
     const tokenExpiry = new Date(new Date().getTime() + response.expires_in);
     console.log('Expires at: ' + tokenExpiry);
-    res.cookie('spotifyToken', token);
+    res.cookie('spotifyToken', token).status(200);
   }
 };
