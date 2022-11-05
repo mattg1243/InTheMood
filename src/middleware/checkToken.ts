@@ -2,7 +2,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { getToken } from '../utils/spotify';
 
-export const checkTokenCookie = async (req: Request, res: Response, next) => {
+export const checkTokenCookie = async (req: Request, res: Response, next: NextFunction) => {
   if (req.cookies.spotifyToken) {
     next();
   } else {
