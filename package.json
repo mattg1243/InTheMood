@@ -1,0 +1,23 @@
+{
+  "name": "in_the_mood",
+  "version": "1.0.0",
+  "description": "A basic web app that finds Spotify playlists that match your mood",
+  "main": "index.js",
+  "scripts": {
+    "devstart": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/app.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "nodemon": "^2.0.20",
+    "tsc-watch": "^5.0.3",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
