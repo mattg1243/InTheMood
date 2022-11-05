@@ -6,7 +6,9 @@ dotenv.config();
 const client_id = process.env.API_CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 
-export const getToken = async (): Promise<string> => {
+export type SpotifyAuthResponse = { access_token: string, token_type: string, expires_in: number }
+
+export const getToken = async (): Promise<SpotifyAuthResponse> => {
   console.log('CLIENT: ' + client_id);
   console.log('SECRET: ' + client_secret);
   let formData = new FormData();
