@@ -16,6 +16,9 @@ const express_1 = __importDefault(require("express"));
 const path_1 = __importDefault(require("path"));
 const spotify_1 = require("./utils/spotify");
 const app = (0, express_1.default)();
+app.get('/features', (req, res, next) => {
+    res.sendFile(path_1.default.join(__dirname, '../client/features.html'));
+});
 app.get('/token', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const response = yield (0, spotify_1.getToken)();
