@@ -14,22 +14,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getToken = void 0;
 const axios_1 = __importDefault(require("axios"));
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const client_id = process.env.API_CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 const getToken = () => __awaiter(void 0, void 0, void 0, function* () {
+    console.log('CLIENT: ' + client_id);
+    console.log('SECRET: ' + client_secret);
     let formData = new FormData();
     formData.append('grant_type', 'client_credentials');
     const authHeader = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
     console.log(authHeader);
-    const response = yield (0, axios_1.default)({
-        method: 'POST',
-        url: 'https://accounts.spotify.com/api/token',
-        data: { grant_type: 'client_credentials' },
-        headers: {
-            Authorization: 'Basic ' + Buffer.from(`${client_id}:${client_secret}`).toString('base64'),
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-    });
-    return response;
+    try {
+        const response = yield (0, axios_1.default)({
+            method: 'POST',
+            url: 'https://accounts.spotify.com/api/token',
+            data: { grant_type: 'client_credentials' },
+            headers: {
+                Authorization: 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
+        return Promise.resolve(response.data);
+    }
+    catch (err) {
+        console.log(err);
+        return Promise.reject(err.message);
+    }
 });
 exports.getToken = getToken;
