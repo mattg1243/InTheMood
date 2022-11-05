@@ -12,23 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const path_1 = __importDefault(require("path"));
-const spotify_1 = require("./utils/spotify");
-const app = (0, express_1.default)();
-app.get('/features', (req, res, next) => {
-    res.sendFile(path_1.default.join(__dirname, '../client/features.html'));
+exports.getToken = void 0;
+const axios_1 = __importDefault(require("axios"));
+const client_id = process.env.API_CLIENT_ID;
+const client_secret = process.env.CLIENT_SECRET;
+const getToken = () => __awaiter(void 0, void 0, void 0, function* () {
+    let formData = new FormData();
+    formData.append('grant_type', 'client_credentials');
+    const authHeader = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
+    console.log(authHeader);
+    const response = yield (0, axios_1.default)({
+        method: 'POST',
+        url: 'https://accounts.spotify.com/api/token',
+        data: { grant_type: 'client_credentials' },
+        headers: {
+            Authorization: 'Basic ' + Buffer.from(`${client_id}:${client_secret}`).toString('base64'),
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+    });
+    return response;
 });
-app.get('/token', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const response = yield (0, spotify_1.getToken)();
-        res.json(response);
-    }
-    catch (err) {
-        console.error(err);
-    }
-}));
-app.get('*', (req, res, next) => {
-    res.sendFile(path_1.default.join(__dirname, '../client/index.html'));
-});
-app.listen(3000);
+exports.getToken = getToken;
