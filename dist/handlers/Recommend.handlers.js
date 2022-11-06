@@ -22,6 +22,7 @@ const recommendSongsHandler = (req, res, next) => __awaiter(void 0, void 0, void
         res.status(200).json(recomendations);
     }
     catch (err) {
+        res.status(503).json(err);
         console.error(err);
     }
 });

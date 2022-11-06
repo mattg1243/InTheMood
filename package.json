@@ -4,6 +4,7 @@
   "description": "A basic web app that finds Spotify playlists that match your mood",
   "main": "./dist/app.js",
   "scripts": {
+    "start": "node ./dist/app.js",
     "devstart": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

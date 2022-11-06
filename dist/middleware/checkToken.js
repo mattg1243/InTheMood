@@ -13,7 +13,8 @@ exports.checkTokenCookie = void 0;
 const spotify_1 = require("../utils/spotify");
 const checkTokenCookie = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     // check if the client has a valid token
-    if (req.cookies.spotifyToken && new Date(Date.now()) > new Date(req.cookies.spotifyTokenExpiry)) {
+    // this is getting a new token every request for now, need to fix that
+    if (req.cookies.spotifyToken && new Date(Date.now()) < new Date(req.cookies.spotifyTokenExpiry)) {
         next();
     }
     else {

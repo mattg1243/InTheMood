@@ -3,7 +3,8 @@ import { getToken } from '../utils/spotify';
 
 export const checkTokenCookie = async (req: Request, res: Response, next: NextFunction) => {
   // check if the client has a valid token
-  if (req.cookies.spotifyToken && new Date(Date.now()) > new Date(req.cookies.spotifyTokenExpiry)) {
+  // this is getting a new token every request for now, need to fix that
+  if (req.cookies.spotifyToken && new Date(Date.now()) < new Date(req.cookies.spotifyTokenExpiry)) {
     next();
   } else {
     console.log('  --- token expired, refreshing...');

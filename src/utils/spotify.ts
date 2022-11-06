@@ -61,7 +61,8 @@ export const getRecommendations = async (mood: Mood, token: string): Promise<Arr
     }
     console.log('  --- RESPONSE GENERATE: ', resData);
     return Promise.resolve(resData);
-  } catch (err) {
+  } catch (err: any) {
+    console.log(err.data.error);
     return Promise.reject();
   }
 };

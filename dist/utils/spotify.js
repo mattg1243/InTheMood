@@ -76,6 +76,7 @@ const getRecommendations = (mood, token) => __awaiter(void 0, void 0, void 0, fu
         return Promise.resolve(resData);
     }
     catch (err) {
+        console.log(err.data.error);
         return Promise.reject();
     }
 });
