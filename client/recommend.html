@@ -26,11 +26,10 @@
             mode: 'cors',
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ mood: mood }),
+          body: JSON.stringify({ mood: mood.toLower() }),
         })
           .then((res) => {
             console.log(req.json());
-
           })
           .catch((error) => {
             console.log(error.status);
@@ -58,7 +57,7 @@
         let mood = localStorage.getItem('mood');
         let EmojiImage = document.getElementById('emoji');
         EmojiImage.src = 'images/' + mood + '.png';
-        let data = await fetch(`/api/recommend?mood=${mood}`)
+        let data = await fetch(`/api/recommend?mood=${mood.toLowerCase()}`)
           .then((req) => req.json())
           .catch((error) => console.log(error));
 
