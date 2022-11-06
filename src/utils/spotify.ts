@@ -8,12 +8,10 @@ const client_id = process.env.API_CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
 
 export const getToken = async (): Promise<SpotifyAuthResponse> => {
-  console.log('CLIENT: ' + client_id);
-  console.log('SECRET: ' + client_secret);
+  // console.log('CLIENT: ' + client_id);
+  // console.log('SECRET: ' + client_secret);
   let formData = new FormData();
   formData.append('grant_type', 'client_credentials');
-  const authHeader = Buffer.from(`${client_id}:${client_secret}`).toString('base64');
-  console.log(authHeader);
   try {
     const response = await axios({
       method: 'POST',
@@ -31,7 +29,7 @@ export const getToken = async (): Promise<SpotifyAuthResponse> => {
   }
 };
 
-export const getRecommendations = async (mood: Mood, token: string) => {
+export const getRecommendations = async (mood: Mood, token: string): Promise<Array<RecsForClient>> => {
   const baseUrl = 'https://api.spotify.com/v1/recommendations?limit=5&market=ES';
   const seedArtist: string[] = requestData.artist[mood];
   // api is only allowing one seed genre for some reason
