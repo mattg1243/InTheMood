@@ -56,7 +56,7 @@
       window.addEventListener('load', async function () {
         let mood = localStorage.getItem('mood');
         let EmojiImage = document.getElementById('emoji');
-        EmojiImage.src = 'images/' + mood + '.png';
+        EmojiImage.src = 'images/' + mood.toLowerCase() + '.png';
         let data = await fetch(`/api/recommend?mood=${mood.toLowerCase()}`)
           .then((req) => req.json())
           .catch((error) => console.log(error));
