@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
-import { getToken } from './utils/spotify';
-import moment from 'moment';
+import { getRecommendations } from './utils/spotify';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 // middleware
@@ -11,10 +10,18 @@ dotenv.config();
 const app = express();
 app.use(cookieParser());
 
-
-app.post('/recommend', checkTokenCookie, (req: Request<{}, {}, { mood: string }>, res: Response, next: NextFunction) => {
-  res.json(200).json('got it!');
-});
+app.get(
+  '/recommend',
+  checkTokenCookie,
+  async (req: Request<{}, {}, { mood: string }>, res: Response, next: NextFunction) => {
+    try {
+      const recomendations = await getRecommendations('happy', req.cookies.spotifyToken);
+      res.status(200).json(recomendations);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+);
 
 app.get('/features', checkTokenCookie, (req: Request, res: Response, next: NextFunction) => {
   res.sendFile(path.join(__dirname, '../client/features.html'));
