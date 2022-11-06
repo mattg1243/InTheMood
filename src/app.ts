@@ -12,6 +12,7 @@ const app = express();
 // middleware
 app.use(cookieParser());
 app.use(checkTokenCookie);
+app.use(express.static(path.join(__dirname, '../assets')));
 
 // server routes
 // this is the route to hit in order to get the recommendations from Spotify
@@ -20,6 +21,10 @@ app.get('/api/recommend', recommendSongsHandler);
 
 // static routes
 // these routes all send html pages to the browser
+app.get('/recommend', (req: Request, res: Response, next: NextFunction) => {
+  res.sendFile(path.join(__dirname, '../client/recommend.html'));
+});
+
 app.get('/features', (req: Request, res: Response, next: NextFunction) => {
   res.sendFile(path.join(__dirname, '../client/features.html'));
 });

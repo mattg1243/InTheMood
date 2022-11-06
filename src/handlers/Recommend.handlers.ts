@@ -12,7 +12,7 @@ export const recommendSongsHandler = async (req: Request, res: Response, next: N
     const recomendations = await getRecommendations(mood, req.cookies.spotifyToken);
     res.status(200).json(recomendations);
   } catch (err) {
-    res.status(503).json(err);
+    res.status(503).json(err)
     console.error(err);
   }
 };

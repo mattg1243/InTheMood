@@ -31,7 +31,7 @@ export const getToken = async (): Promise<SpotifyAuthResponse> => {
 };
 
 export const getRecommendations = async (mood: Mood, token: string): Promise<Array<RecsForClient>> => {
-  const baseUrl = 'https://api.spotify.com/v1/recommendations?limit=5&market=ES';
+  const baseUrl = 'https://api.spotify.com/v1/recommendations?limit=20&market=ES';
   const seedArtist: string[] = requestData.artist[mood];
   // api is only allowing one seed genre for some reason
   const seedGenres: string = requestData.genres[mood];

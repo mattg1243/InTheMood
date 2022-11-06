@@ -1,63 +1,331 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>In The Mood</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="../bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">  
-  <link rel="stylesheet" href="global.css">
+<html lang="en" style="overflow-x: hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>In The Mood</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link href="../bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="global.css" />
 
-  <script>
-    function getData() {
-      if (typeof(Storage !== undefined)) {
-        let data = {prop1: "hello"};
-        const string_data = JSON.stringify(data);
-        console.log(string_data);
-        localStorage.setItem("recommendation_list", "string_data");
-      }
-      else {
-        document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Storage...";
-      }
-    }
-    
-  </script>
+    <script>
+      // check if being redirected due to bad input
+      // if (localStorage.getItem('badInput') == 'true') {
+      //   document.getElementById('errorMessage').style.visibility = 'visible';
+      // } else {
+      //   document.getElementById('errorMessage').style.visibility = 'hidden';
+      // }
 
-</head>
-<body style="font-family: 'Montserrat', sans-serif; color: white !important; background-color: #484848 !important;">
-  <header>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white" style="background-color: black !important; padding: 2%">
-      <div class="container-fluid">
-      </div>
-    </nav>
-    <!-- Navbar -->
-  
-    <!-- Jumbotron --
+      const clearError = () => {};
+
+      function getData() {
+        if (typeof (Storage !== undefined)) {
+          const MainInput = document.getElementById('main-input');
+          localStorage.setItem('mood', MainInput.value);
+          window.location.href = '/recommend';
+        } else {
+          document.getElementById('result').innerHTML = 'Sorry, your browser does not support Web Storage...';
+        }
+      }
+    </script>
+  </head>
+  <body style="font-family: 'Montserrat', sans-serif; color: white !important; background-color: #1d1d1d !important">
+    <style>
+      .form-control:focus {
+        border-color: #28a745;
+        box-shadow: 0 0 0 0.2rem #1cbb56;
+      }
+    </style>
+    <header>
+      <!-- Navbar -->
+      <nav
+        class="navbar navbar-expand-lg navbar-light bg-white"
+        style="background-color: black !important; min-height: 4rem !important; max-height: 4rem !important"
+      >
+        <div class="container-fluid">
+          <img src="images/logo.png" style="height: 2rem; width: 2.6rem; position: absolute; right: 1rem" />
+        </div>
+      </nav>
+      <!-- Navbar -->
+
+      <!-- Jumbotron --
     <!-- Jumbotron -->
-  </header>
-  <div class="p-5" style="background-color: #1CBB56; padding-left: 10px !important; padding: 0.5% !important;">
-    <h1 class="mb-3" style="font-size: 70px !important;">in <br> the <br> mood</h1>
-  </div>
-  <div class="container" style="padding-top: 1%">
-    <h4 class="mb-3">tell us your mood in one word we'll create a spotify playlist for you</h4>
-    <!-- <form action="http://localhost:3000/recommend" method="POST"> -->
+    </header>
+    <div
+      class="p-5"
+      style="
+        background-color: #1cbb56;
+        padding-left: 10px !important;
+        padding: 0.5% !important;
+        display: flex;
+        flex-direction: row;
+        height: 18rem !important ;
+        position: relative;
+      "
+    >
+      <h1 class="mb-3" style="font-size: 70px !important; font-weight: 800">
+        in <br />
+        the <br />
+        mood.
+      </h1>
+      <div style="position: relative">
+        <img src="/images/banner1.png" style="position: absolute; height: 17rem" />
+        <img src="/images/banner2.png" style="position: absolute; height: 17rem; left: -9rem" />
+      </div>
+    </div>
+    <div style="position: absolute; height: 36rem; width: 100%; z-index: -1; overflow: hidden">
+      <script>
+        function onPlay() {
+          setTimeout(() => {
+            let GlassPane = document.getElementById('glasspane1');
+            console.log('palying');
+            GlassPane.style.backdropFilter = 'blur(2px)';
+          }, 5000);
+        }
+      </script>
+      <iframe
+        src="https://www.youtube.com/embed/4fOWKhS15ag?start=30&end=130&autoplay=1&mute=1&controls=0&showinfo=0&loop=1"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+        style="z-index: -1; width: 100vw; height: 100%"
+        onload="onPlay()"
+      ></iframe>
+    </div>
+    <div
+      id="glasspane1"
+      class="container"
+      style="
+        padding-top: 1%;
+        min-width: 100vw !important;
+        height: 36rem;
+        z-index: 3;
+        backdrop-filter: blur(100px);
+        transition: backdrop-filter 5s ease;
+        display: flex;
+        align-items: flex-end;
+        padding-bottom: 5rem;
+        justify-content: center;
+      "
+    >
+      <div style="width: 64rem">
+        <h4 class="mb-3">tell us your mood in one word we'll create a spotify playlist for you</h4>
+        <p>please enter either 'happy', 'sad', or 'angry'</p>
+        <!-- <form action="http://localhost:3000/recommend" method="POST"> -->
+        <!-- <div class="alert alert-danger alert-dismissible fade show" id="errorMessage" role="alert">
+          <strong>Invalid Input:</strong> Please enter 'happy', 'sad', or 'angry'
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+            onclick="localStorage.removeItem('invalidInput'); $(".alert").alert()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> -->
         <div class="form-group">
-            <input class="form-control"
-                   type="text"
-                   placeholder="enter mood here">
+          <input class="form-control" type="text" placeholder="enter mood here" id="main-input" />
         </div>
         <div class="form-group">
-            <button class="btn btn-success btn-lg float-right"
-                    type="submit" onclick="getData()">
-                 Submit
+          <button class="btn btn-success btn-lg float-right" type="submit" onclick="getData()">Submit</button>
+        </div>
+
+        <!-- </form> -->
+      </div>
+    </div>
+    <div style="width: 100vw; display: flex; flex-direction: row; height: 17rem; position: relative; padding: 1rem">
+      <section style="height: 100%; width: 25vw; display: flex; flex-direction: column; align-items: flex-end">
+        <h1 style="height: 100%; width: 13rem; font-size: 4rem; font-weight: 800">about the app</h1>
+      </section>
+      <section>
+        <section style="height: 60%">
+          <h3
+            style="
+              width: 45vw;
+              margin-left: 4rem;
+              height: 100%;
+              padding-top: 1.2rem;
+              line-height: 2.7rem;
+              font-weight: 800;
+            "
+          >
+            feeling happy but can’t find a happy song to match your mood? in the mood generates a spotify playlist based
+            on YOUR current mood, so the vibe is always right.
+          </h3>
+        </section>
+        <section style="height: 40%">
+          <p
+            style="
+              width: 45vw;
+              height: 100%;
+              font-weight: 100;
+              font-size: 2rem;
+              margin-left: 4rem;
+              display: flex;
+              align-items: center;
+            "
+          >
+            scroll up to try it!
+          </p>
+        </section>
+      </section>
+    </div>
+    <div
+      style="
+        width: 100vw;
+        display: flex;
+        flex-direction: row;
+        height: 17rem;
+        position: relative;
+        padding: 1rem;
+        background-color: #1cbb56;
+      "
+    >
+      <section style="height: 100%; width: 25vw; display: flex; flex-direction: column; align-items: flex-end">
+        <h1 style="height: 100%; width: 13rem; font-size: 4rem; font-weight: 800">about the team</h1>
+      </section>
+      <section>
+        <section style="height: 60%">
+          <h3
+            style="
+              width: 45vw;
+              margin-left: 4rem;
+              height: 100%;
+              padding-top: 1.2rem;
+              line-height: 2.7rem;
+              font-weight: 800;
+            "
+          >
+            the development team for this app is a group of students attending diablo valley college in pleasant hill,
+            ca.
+          </h3>
+        </section>
+        <section style="height: 40%">
+          <p
+            style="
+              width: 45vw;
+              height: 100%;
+              font-weight: 100;
+              font-size: 2rem;
+              margin-left: 4rem;
+              display: flex;
+              align-items: center;
+            "
+          >
+            see more about them below.
+          </p>
+        </section>
+      </section>
+    </div>
+    <section
+      style="
+        background-color: #1cbb56;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+      "
+    >
+      <div style="width: 25rem; height: 18rem; position: relative; display: flex; flex-direction: row">
+        <div style="height: 100%; width: 50%">
+          <img src="/images/team/harshana.png" style="height: 12rem; width: 12rem" />
+        </div>
+        <div style="height: 100%; width: 50%">
+          <h2 style="font-weight: 800">
+            harshana<br />
+            somas
+          </h2>
+          <p>is a student currently studying computer science with hopes of becoming a front-end developer.</p>
+          <section style="display: flex; flex-direction: row">
+            <button style="background-color: transparent; border: none">
+              <img src="/images/linkedin.png" style="height: 3rem; width: 3rem" />
             </button>
+            <button style="background-color: transparent; border: none">
+              <img src="/images/github.png" style="height: 2rem; width: 2rem" />
+            </button>
+          </section>
         </div>
-    <!-- </form> -->
-</div>
-</body>
+      </div>
+      <div style="width: 25rem; height: 18rem; position: relative; display: flex; flex-direction: row">
+        <div style="height: 100%; width: 50%">
+          <img src="/images/team/matt.png" style="height: 12rem; width: 12rem" />
+        </div>
+        <div style="height: 100%; width: 50%">
+          <h2 style="font-weight: 800">
+            matt<br />
+            gallucci
+          </h2>
+          <p>is a computer science student, full stack web developer, building whatever pops into his head.</p>
+          <section style="display: flex; flex-direction: row">
+            <button style="background-color: transparent; border: none">
+              <img src="/images/linkedin.png" style="height: 3rem; width: 3rem" />
+            </button>
+            <button style="background-color: transparent; border: none">
+              <img src="/images/github.png" style="height: 2rem; width: 2rem" />
+            </button>
+          </section>
+        </div>
+      </div>
+      <div style="width: 25rem; height: 18rem; position: relative; display: flex; flex-direction: row">
+        <div style="height: 100%; width: 50%">
+          <img src="/images/team/ashley.png" style="height: 12rem; width: 12rem" />
+        </div>
+        <div style="height: 100%; width: 50%">
+          <h2 style="font-weight: 800">
+            ashley<br />
+            freeman
+          </h2>
+          <p>
+            studying Computer Information Systems and Information Technology with a focus on interpersonal relationships
+          </p>
+          <section style="display: flex; flex-direction: row">
+            <button style="background-color: transparent; border: none">
+              <img src="/images/linkedin.png" style="height: 3rem; width: 3rem" />
+            </button>
+            <button style="background-color: transparent; border: none">
+              <img src="/images/github.png" style="height: 2rem; width: 2rem" />
+            </button>
+          </section>
+        </div>
+      </div>
+      <div style="width: 25rem; height: 18rem; position: relative; display: flex; flex-direction: row">
+        <div style="height: 100%; width: 50%">
+          <img src="/images/team/ashley.png" style="height: 12rem; width: 12rem" />
+        </div>
+        <div style="height: 100%; width: 50%">
+          <h2 style="font-weight: 800">
+            omer<br />
+            ahmer
+          </h2>
+          <p>s a computer science and engineering student with dreams of working with machine learning in the future</p>
+          <section style="display: flex; flex-direction: row">
+            <button style="background-color: transparent; border: none">
+              <img src="/images/linkedin.png" style="height: 3rem; width: 3rem" />
+            </button>
+            <button style="background-color: transparent; border: none">
+              <img src="/images/github.png" style="height: 2rem; width: 2rem" />
+            </button>
+          </section>
+        </div>
+      </div>
+    </section>
+  </body>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"
+  ></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 </html>

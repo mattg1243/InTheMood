@@ -1,17 +1,269 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<html lang="en" style="height: 100vh; overflow-y: hidden">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>In The Mood</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link href="../bootstrap-4.3.1-dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="global.css" />
+
     <script>
-        if (typeOf(Storage) !== undefined) {
-            document.getElementById("recommendation_list").innerHTML = localStorage.getItem("string_data");
+      async function getData() {
+        let mood = 'happy';
+        fetch('/recommend', {
+          headers: {
+            method: 'POST',
+            mode: 'cors',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mood: mood }),
+        })
+          .then((res) => {
+            console.log(req.json());
+
+          })
+          .catch((error) => {
+            console.log(error.status);
+          });
+        console.log(data);
+        if (typeof (Storage !== undefined)) {
+          let data = { prop1: 'hello' };
+          const string_data = JSON.stringify(data);
+          console.log(string_data);
+          localStorage.setItem('recommendation_list', 'string_data');
+        } else {
+          document.getElementById('result').innerHTML = 'Sorry, your browser does not support Web Storage...';
         }
+      }
     </script>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body style="font-family: 'Montserrat', sans-serif; color: white !important; background-color: #1d1d1d !important">
+    <script>
+      let colors = {
+        happy: '#1cbb56',
+        sad: '#4034eb',
+        angry: '#eb4634',
+      };
+      window.addEventListener('load', async function () {
+        let mood = localStorage.getItem('mood');
+        let EmojiImage = document.getElementById('emoji');
+        EmojiImage.src = 'images/' + mood + '.png';
+        let data = await fetch(`/api/recommend?mood=${mood}`)
+          .then((req) => req.json())
+          .catch((error) => console.log(error));
+
+        const Container = document.getElementById('results');
+        data.forEach((element) => {
+          const { artwork, artist, track_name, duration_ms, spotify_link } = element;
+          const date = new Date(duration_ms);
+          const time = `${date.getMinutes()}:${date.getSeconds()}`;
+          const Component = document.getElementsByClassName('placard')[0].cloneNode(true);
+          const Jumbotron = document.getElementById('jumbotron');
+          Jumbotron.style.backgroundColor = colors[mood];
+          let children = Component.childNodes;
+          let section_1 = children[1].children;
+          let section_2 = children[3].children;
+          let img = section_1[0];
+          let img_glow = section_1[1];
+
+          img.src = artwork;
+          img_glow.src = artwork;
+
+          let section_2_1 = section_2[0].children;
+          const song_title = section_2_1[0];
+          const artist_title = section_2_1[1];
+          const duration_title = section_2_1[2];
+          const Button = section_2[1].children[0];
+          Button.style.backgroundColor = colors[mood];
+          Button.onclick = function () {
+            window.open(spotify_link, '_blank');
+          };
+          song_title.innerText = track_name;
+          artist_title.innerText = artist;
+          duration_title.innerText = time;
+          Component.style.display = '';
+          Container.appendChild(Component);
+        });
+      });
+    </script>
+    <header>
+      <!-- Navbar -->
+      <nav
+        class="navbar navbar-expand-lg navbar-light bg-white"
+        style="background-color: black !important; min-height: 4rem !important; max-height: 4rem !important"
+      >
+        <div class="container-fluid">
+          <img src="images/logo.png" style="height: 2rem; width: 2.6rem; position: absolute; right: 1rem" />
+        </div>
+      </nav>
+      <!-- Navbar -->
+
+      <!-- Jumbotron --
+    <!-- Jumbotron -->
+    </header>
+    <div
+      id="jumbotron"
+      class="p-3"
+      style="
+        background-color: #1cbb56;
+        padding-left: 10px !important;
+        padding: 0.5% !important;
+        box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.4);
+        position: relative;
+        z-index: 3;
+        height: 11rem;
+      "
+    >
+      <div style="display: flex; flex-direction: row">
+        <h1 class="mb-3" style="font-size: 40px !important; margin: 0px">
+          in <br />
+          the <br />
+          mood:
+        </h1>
+      </div>
+    </div>
+    <div id="container" style="padding-top: 0; height: 74vh !important; display: flex; flex-direction: row">
+      <div
+        style="
+          width: 14vw;
+          font-size: 1.7rem;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <div style="display: flex; align-items: center; flex-direction: column">
+          <p>your mood is:</p>
+          <img id="emoji" style="height: 11rem; width: 11rem" />
+        </div>
+      </div>
+      <div
+        id="results"
+        style="
+          padding: 2rem;
+          height: 100%;
+          background-color: black;
+          width: 86vw;
+          margin-left: auto;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1.6rem;
+          overflow-y: scroll;
+          justify-content: center;
+        "
+      >
+        <div
+          class="placard"
+          style="
+            position: relative;
+            height: 26rem;
+            width: 17rem;
+            background-color: rgba(139, 139, 139, 0.4);
+            display: none;
+            border-radius: 10px;
+            padding: 0.7rem;
+          "
+        >
+          <section style="height: 67%; width: 100%; position: relative">
+            <img
+              src="https://i.scdn.co/image/ab67616d0000b27361ad38738003fa010380b9ec"
+              style="height: 100%; width: 100%; position: relative; z-index: 3; border-radius: 10px; overflow: hidden"
+            />
+            <img
+              src="https://i.scdn.co/image/ab67616d0000b27361ad38738003fa010380b9ec"
+              style="height: 98%; width: 98%; position: absolute; left: 0; filter: blur(25px)"
+            />
+          </section>
+          <section style="position: relative; height: 33%; width: 100%; color: black">
+            <section style="height: 50%; width: 100%">
+              <p
+                style="
+                  font-size: 1.4rem;
+                  font-weight: 900;
+                  margin: 0;
+                  margin-top: 0.4rem;
+                  line-height: 1.4rem;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  height: 1.7rem;
+                  color: rgb(198, 198, 198);
+                "
+              >
+                Song Name
+              </p>
+              <p
+                style="
+                  font-size: 1.1rem;
+                  font-weight: 500;
+                  margin: 0;
+                  line-height: 1.2rem;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  color: rgb(141, 141, 141);
+                "
+              >
+                Artist
+              </p>
+              <p
+                style="
+                  font-size: 1.1rem;
+                  font-weight: 500;
+                  margin: 0;
+                  line-height: 1rem;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  color: rgb(141, 141, 141);
+                "
+              >
+                2:00 m
+              </p>
+            </section>
+            <section style="height: 44%; width: 100%">
+              <button
+                style="
+                  height: 100%;
+                  width: 100%;
+                  border: none;
+                  background-color: #1cbb56;
+                  color: white;
+                  border-radius: 10px;
+                "
+              >
+                Visit on Spotify
+              </button>
+            </section>
+          </section>
+        </div>
+      </div>
+    </div>
+    <style>
+      #results::-webkit-scrollbar {
+        width: 0.7em;
+      }
+
+      #results::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #484848;
+      }
+
+      #results::-webkit-scrollbar-thumb {
+        background-color: #e1e1e1;
+        border-radius: 50px;
+      }
+    </style>
+  </body>
 </html>
