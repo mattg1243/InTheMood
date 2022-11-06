@@ -5,6 +5,7 @@
   "main": "./dist/app.js",
   "scripts": {
     "start": "node ./dist/app.js",
+    "build": "tsc",
     "devstart": "tsc-watch --noClear -p ./tsconfig.json --onSuccess \"node ./dist/app.js\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
