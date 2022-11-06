@@ -30,7 +30,7 @@
       function getData() {
         if (typeof (Storage !== undefined)) {
           const MainInput = document.getElementById('main-input');
-          localStorage.setItem('mood', MainInput.value.toLower());
+          localStorage.setItem('mood', MainInput.value);
           window.location.href = '/recommend';
         } else {
           document.getElementById('result').innerHTML = 'Sorry, your browser does not support Web Storage...';
