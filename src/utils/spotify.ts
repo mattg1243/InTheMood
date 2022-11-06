@@ -2,6 +2,7 @@ import axios from 'axios';
 import dotenv from 'dotenv';
 import type { SpotifyAuthResponse, Mood, SongResponse, RequestData, RecsForClient } from '../types';
 import { requestData } from './requestData';
+import FormData from 'form-data';
 dotenv.config();
 
 const client_id = process.env.API_CLIENT_ID;
