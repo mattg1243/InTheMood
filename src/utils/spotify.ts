@@ -1,12 +1,11 @@
 import axios from 'axios';
-import request from 'request';
 import dotenv from 'dotenv';
+import type { SpotifyAuthResponse, Mood, SongResponse, RequestData, RecsForClient } from '../types';
+import { requestData } from './requestData';
 dotenv.config();
 
 const client_id = process.env.API_CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
-
-export type SpotifyAuthResponse = { access_token: string, token_type: string, expires_in: number }
 
 export const getToken = async (): Promise<SpotifyAuthResponse> => {
   console.log('CLIENT: ' + client_id);
@@ -29,5 +28,42 @@ export const getToken = async (): Promise<SpotifyAuthResponse> => {
   } catch (err: any) {
     console.log(err);
     return Promise.reject(err.message);
+  }
+};
+
+export const getRecommendations = async (mood: Mood, token: string) => {
+  const baseUrl = 'https://api.spotify.com/v1/recommendations?limit=5&market=ES';
+  const seedArtist: string[] = requestData.artist[mood];
+  // api is only allowing one seed genre for some reason
+  const seedGenres: string = requestData.genres[mood];
+  const seedTracks: string[] = requestData.songs[mood];
+  // create the request URL
+  const reqUrl = `${baseUrl}&seed_artists=${seedArtist}&seed_genres=${seedGenres}&seed_tracks=${seedTracks}`;
+  console.log(' --- REQUEST URL: ', reqUrl);
+  // send the request and await the response
+  try {
+    const response = await axios.get(reqUrl, {
+      headers: {
+        Authorization: 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      },
+    });
+    const tracks: Array<SongResponse> = response.data.tracks;
+    let resData: RecsForClient[] = [];
+    // loop through and save the data
+    for (let i = 0; i < tracks.length - 1; i++) {
+      resData.push({
+        track_name: tracks[i].name,
+        artist: tracks[i].artists[0].name,
+        artwork: tracks[i].album.images[0].url,
+        duration_ms: tracks[i].duration_ms,
+        spotify_link: tracks[i].external_urls.spotify,
+        explicit: tracks[i].explicit,
+      });
+    }
+    console.log('  --- RESPONSE GENERATE: ', resData);
+    return Promise.resolve(resData);
+  } catch (err) {
+    return Promise.reject();
   }
 };
